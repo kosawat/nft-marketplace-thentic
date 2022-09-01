@@ -30,12 +30,14 @@ const MintNFT: NextPage = () => {
     getWalletAddress();
   }, []);
 
+  // get Metamask object from browser
   const getEthereum = () => {
     // @ts-ignore
     const { ethereum } = window;
     return ethereum;
   };
 
+  // get wallet address from Metamask
   const getWalletAddress = () => {
     const ethereum = getEthereum();
     setWalletAddress(ethereum.selectedAddress);
@@ -44,8 +46,6 @@ const MintNFT: NextPage = () => {
   // Connect Metamask wallet
   const connectMetamask = async () => {
     try {
-      // Will open the MetaMask UI
-      // You should disable this button while the request is pending!
       const ethereum = getEthereum();
       await ethereum.request({ method: "eth_requestAccounts" });
       setWalletAddress(ethereum.selectedAddress);
@@ -172,7 +172,8 @@ const MintNFT: NextPage = () => {
       });
 
       const transactionWindow = window.open(res.data.transaction_url);
-      setTimeout(() => transactionWindow?.close(), 5000);
+      // close transaction window after 10 sec
+      setTimeout(() => transactionWindow?.close(), 10000);
       router.push("/");
     } catch (error) {
       console.log("Error mint NFT :", error);
